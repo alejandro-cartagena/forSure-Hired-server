@@ -2,6 +2,8 @@ import express, { urlencoded } from "express";
 import * as dotenv from "dotenv";
 import morgan from "morgan";
 
+import userRouter from "./routes/user.routes.js";
+
 import connectDB from "./config/mongoose.config.js";
 import cookieParser from "cookie-parser";
 
@@ -15,6 +17,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
+
+app.use("/user", userRouter);
 
 app.listen(process.env.PORT, () => {
   console.clear();
