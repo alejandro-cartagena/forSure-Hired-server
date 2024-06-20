@@ -4,7 +4,7 @@ const isOwner = async (req, res, next) => {
   try {
     const { jobId } = req.params;
     const job = await Jobs.findById(jobId);
-    job.user === req.user._id
+    job.user.toString() === req.user._id
       ? next()
       : res.status(403).json({
           message: "You haven't permission to see or modify this job",
