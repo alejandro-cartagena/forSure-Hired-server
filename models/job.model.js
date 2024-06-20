@@ -7,7 +7,7 @@ const addressSchema = new Schema({
 });
 
 const companySchema = new Schema({
-  name: { type: String, required: true, unique: true, trim: true },
+  name: { type: String, required: true, trim: true },
   logo: { type: String, required: true, trim: true },
   valoration: { type: Number, required: true, trim: true },
   address: { type: addressSchema, required: true },
