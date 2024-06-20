@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export default isAuth = async (req, res, next) => {
+const isAuth = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const verifiedUser = jwt.verify(token, process.env.TOKEN_SIGN_SECRET);
@@ -11,3 +11,4 @@ export default isAuth = async (req, res, next) => {
     res.status(401).json({ message: "Token is invalid or not Provided" });
   }
 };
+export default isAuth;

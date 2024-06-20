@@ -1,4 +1,4 @@
-export default checkJob = (req, res, next) => {
+const checkJob = (req, res, next) => {
   const jobProps = [
     "title",
     "description",
@@ -19,3 +19,5 @@ export default checkJob = (req, res, next) => {
   }
   next();
 };
+
+export default checkJob;
