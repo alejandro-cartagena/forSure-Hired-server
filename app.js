@@ -4,6 +4,7 @@ import morgan from "morgan";
 //ROUTERS IMPORT
 import userRouter from "./routes/user.routes.js";
 import jobRouter from "./routes/job.routes.js";
+import quizRouter from "./routes/quiz.routes.js";
 
 import connectDB from "./config/mongoose.config.js";
 import cookieParser from "cookie-parser";
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/user", userRouter);
 app.use("/jobs", jobRouter);
+app.use("/quiz", quizRouter);
 
 app.listen(process.env.PORT, () => {
   console.clear();
