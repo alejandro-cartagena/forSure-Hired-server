@@ -24,7 +24,7 @@ const jobSchema = new Schema(
       trim: true,
     },
     description: { type: String, required: true, trim: true },
-    techs: [{ type: String, required: true, trim: true }],
+    skills: { type: String, required: true, trim: true },
     location: {
       type: String,
       required: true,

@@ -1,6 +1,7 @@
 import express, { urlencoded } from "express";
 import * as dotenv from "dotenv";
 import morgan from "morgan";
+import cors from "cors";
 //ROUTERS IMPORT
 import userRouter from "./routes/user.routes.js";
 import jobRouter from "./routes/job.routes.js";
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
+app.use(cors({ origin: ["http://localhost:5173"] }));
 
 app.use("/user", userRouter);
 app.use("/jobs", jobRouter);

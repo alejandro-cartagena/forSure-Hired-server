@@ -13,7 +13,7 @@ router.post("/", checkJob, isAuth, async (req, res) => {
     const {
       title,
       description,
-      techs,
+      skills,
       location,
       appliedDate,
       minSalary,
@@ -25,7 +25,7 @@ router.post("/", checkJob, isAuth, async (req, res) => {
     const newJob = await Jobs.create({
       title,
       description,
-      techs,
+      skills,
       location,
       appliedDate,
       minSalary,
@@ -38,7 +38,7 @@ router.post("/", checkJob, isAuth, async (req, res) => {
     await User.findByIdAndUpdate(req.user._id, { $push: { jobs: newJob._id } });
     res
       .status(201)
-      .json({ messagee: `New Job added to your Tracking List`, job: newJob });
+      .json({ message: `New Job added to your Tracking List`, job: newJob });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
