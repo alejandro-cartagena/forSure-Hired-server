@@ -2,7 +2,7 @@ const checkJob = (req, res, next) => {
   const jobProps = [
     "title",
     "description",
-    "techs",
+    "skills",
     "location",
     "appliedDate",
     "minSalary",
