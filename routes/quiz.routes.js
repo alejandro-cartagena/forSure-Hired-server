@@ -5,17 +5,16 @@ import isAuth from "../middlewares/isAuth.js";
 
 const router = express.Router();
 
-// CREATE A QUIZ
-router.post("/:jobId", isAuth, async (req, res) => {
+// CREATE A QUIZ ASSOCIATED WITH A JOB
+router.post("/:jobId", async (req, res) => {
   try {
     const { jobId } = req.params;
-    const { name, questions, correctAnswers, wrongAnswers } = req.body;
+    const { name, behavioral, technical } = req.body;
 
     const createdQuiz = await Quiz.create({
       name,
-      questions,
-      correctAnswers,
-      wrongAnswers,
+      behavioral,
+      technical,
       job: jobId,
     });
 
@@ -28,6 +27,23 @@ router.post("/:jobId", isAuth, async (req, res) => {
     res.status(201).json({ message: "Quiz created successfully", createdQuiz });
   } catch (error) {
     console.log("error while creating a quiz", error);
+  }
+});
+
+// CREATE A QUIZ NOT ASSOCIATED WITH ANY JOB
+router.post("/", async (req, res) => {
+  try {
+    const { name, behavioral, technical } = req.body;
+
+    const createdQuiz = await Quiz.create({
+      name,
+      behavioral,
+      technical,
+    });
+
+    res.status(201).json({ message: "Quiz created successfully", createdQuiz });
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -57,7 +73,7 @@ router.get("/:quizId", isAuth, async (req, res) => {
 });
 
 // DELETE A QUIZ
-router.delete("/:quizId", isAuth, async (req, res) => {
+router.delete("/:quizId", async (req, res) => {
   try {
     const { quizId } = req.params;
     const quizToDelete = await Quiz.findByIdAndDelete(quizId);
