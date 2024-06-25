@@ -31,7 +31,7 @@ router.post("/:jobId", async (req, res) => {
 });
 
 // CREATE A QUIZ NOT ASSOCIATED WITH ANY JOB
-router.post("/", async (req, res) => {
+router.post("/", isAuth, async (req, res) => {
   try {
     const { name, behavioral, technical } = req.body;
 
@@ -47,11 +47,21 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET ALL QUIZZES ASSOCIATED WITH JOB
+// GET ALL QUIZZES
 router.get("/", isAuth, async (req, res) => {
   try {
-    const { jobId } = req.body;
+    const allQuizzes = await Quiz.find();
 
+    res.json(allQuizzes);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// GET ALL QUIZZES ASSOCIATED WITH JOB
+router.get("/:jobId", isAuth, async (req, res) => {
+  try {
+    const { jobId } = req.params;
     const allQuizzes = await Quiz.find({ job: jobId });
 
     res.status(200).json(allQuizzes);
@@ -60,8 +70,8 @@ router.get("/", isAuth, async (req, res) => {
   }
 });
 
-// GET SINGLE QUIZ
-router.get("/:quizId", isAuth, async (req, res) => {
+// GET SINGLE QUIZ FROM A JOB
+router.get("/:jobId/:quizId", isAuth, async (req, res) => {
   try {
     const { quizId } = req.params;
 
