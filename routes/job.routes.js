@@ -1,9 +1,13 @@
 import express from "express";
-import checkJob from "../middlewares/checkJob.js";
+//Other Models
 import Jobs from "../models/job.model.js";
+import User from "../models/user.model.js";
+import Quiz from "../models/quiz.model.js";
+
+//Middlewares
+import checkJob from "../middlewares/checkJob.js";
 import isAuth from "../middlewares/isAuth.js";
 import isOwner from "../middlewares/isOwner.js";
-import User from "../models/user.model.js";
 
 const router = express.Router();
 
@@ -20,7 +24,6 @@ router.post("/", checkJob, isAuth, async (req, res) => {
       maxSalary,
       jobUrl,
       company,
-      user,
     } = req.body;
     const newJob = await Jobs.create({
       title,
@@ -32,7 +35,7 @@ router.post("/", checkJob, isAuth, async (req, res) => {
       maxSalary,
       jobUrl,
       company,
-      user,
+      user: req.user._id,
     });
     //ADD THE NEW JOB ID TO THE USER JOBS LIST
     await User.findByIdAndUpdate(req.user._id, { $push: { jobs: newJob._id } });
@@ -79,7 +82,7 @@ router.put("/:jobId", checkJob, isAuth, isOwner, async (req, res) => {
       job: updatedJob,
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     res.status(500).json(error);
   }
 });
@@ -88,10 +91,14 @@ router.delete("/:jobId", isAuth, isOwner, async (req, res) => {
   try {
     const { jobId } = req.params;
     const deletedJob = await Jobs.findByIdAndDelete(jobId);
-    //TODO: delete job from user job list and delete all quizzes linked to job
+    //Delete job from user jobs list
     await User.findByIdAndUpdate(req.user._id, {
       $pull: { jobs: deletedJob._id },
     });
+    //Delete all quizzes linked to job
+    for (let quiz in deletedJob.quizzes) {
+      await Quiz.findByIdAndDelete(quiz);
+    }
     res.json({ message: `Job ${deletedJob.title} successfully deleted.` });
   } catch (error) {
     console.log(error);

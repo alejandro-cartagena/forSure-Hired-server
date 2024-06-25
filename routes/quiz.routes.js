@@ -19,11 +19,9 @@ router.post("/:jobId", isAuth, async (req, res) => {
       job: jobId,
     });
 
-    await Jobs.findByIdAndUpdate(
-      jobId,
-      { $push: { quizzes: createdQuiz._id } },
-      { new: true }
-    );
+    await Jobs.findByIdAndUpdate(jobId, {
+      $push: { quizzes: createdQuiz._id },
+    });
 
     res.status(201).json({ message: "Quiz created successfully", createdQuiz });
   } catch (error) {
@@ -62,11 +60,9 @@ router.delete("/:quizId", isAuth, async (req, res) => {
     const { quizId } = req.params;
     const quizToDelete = await Quiz.findByIdAndDelete(quizId);
 
-    await Jobs.findByIdAndUpdate(
-      quizToDelete.job,
-      { $pull: { quizzes: quizToDelete._id } },
-      { new: true }
-    );
+    await Jobs.findByIdAndUpdate(quizToDelete.job, {
+      $pull: { quizzes: quizToDelete._id },
+    });
 
     res.json({ message: "Quiz successfully deleted" });
   } catch (error) {

@@ -6,18 +6,9 @@ const quizModel = new Schema(
     questions: [{ type: String, required: true }],
     correctAnswers: [{ type: String, required: true }],
     wrongAnswers: [[{ type: String, required: true }]],
-    job: { type: Schema.Types.ObjectId, ref: "job" },
+    job: { type: Schema.Types.ObjectId, ref: "Job" },
   },
   { timestamps: true }
 );
 
 export default model("Quiz", quizModel);
-
-// [1, 2, 3, 4]
-// [
-//     [1, 2, 3],
-//     [],
-//     [],
-//     []
-
-// ]

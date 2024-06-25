@@ -1,5 +1,6 @@
 const checkJob = (req, res, next) => {
   const jobProps = [
+    "_id",
     "title",
     "description",
     "skills",
@@ -8,9 +9,13 @@ const checkJob = (req, res, next) => {
     "minSalary",
     "maxSalary",
     "jobUrl",
+    "stage",
     "company",
     "user",
     "quizzes",
+    "updatedAt",
+    "createdAt",
+    "__v",
   ];
   for (const prop in req.body) {
     if (!jobProps.includes(prop)) {
