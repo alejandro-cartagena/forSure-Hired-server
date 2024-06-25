@@ -5,17 +5,16 @@ import isAuth from "../middlewares/isAuth.js";
 
 const router = express.Router();
 
-// CREATE A QUIZ
-router.post("/:jobId", isAuth, async (req, res) => {
+// CREATE A QUIZ ASSOCIATED WITH A JOB
+router.post("/:jobId", async (req, res) => {
   try {
     const { jobId } = req.params;
-    const { name, questions, correctAnswers, wrongAnswers } = req.body;
+    const { name, behavioral, technical } = req.body;
 
     const createdQuiz = await Quiz.create({
       name,
-      questions,
-      correctAnswers,
-      wrongAnswers,
+      behavioral,
+      technical,
       job: jobId,
     });
 
@@ -29,11 +28,38 @@ router.post("/:jobId", isAuth, async (req, res) => {
   }
 });
 
-// GET ALL QUIZZES ASSOCIATED WITH JOB
+// CREATE A QUIZ NOT ASSOCIATED WITH ANY JOB
+router.post("/", isAuth, async (req, res) => {
+  try {
+    const { name, behavioral, technical } = req.body;
+
+    const createdQuiz = await Quiz.create({
+      name,
+      behavioral,
+      technical,
+    });
+
+    res.status(201).json({ message: "Quiz created successfully", createdQuiz });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// GET ALL QUIZZES
 router.get("/", isAuth, async (req, res) => {
   try {
-    const { jobId } = req.body;
+    const allQuizzes = await Quiz.find();
 
+    res.json(allQuizzes);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// GET ALL QUIZZES ASSOCIATED WITH JOB
+router.get("/:jobId", isAuth, async (req, res) => {
+  try {
+    const { jobId } = req.params;
     const allQuizzes = await Quiz.find({ job: jobId });
 
     res.status(200).json(allQuizzes);
@@ -42,8 +68,8 @@ router.get("/", isAuth, async (req, res) => {
   }
 });
 
-// GET SINGLE QUIZ
-router.get("/:quizId", isAuth, async (req, res) => {
+// GET SINGLE QUIZ FROM A JOB
+router.get("/:jobId/:quizId", isAuth, async (req, res) => {
   try {
     const { quizId } = req.params;
 
@@ -55,7 +81,7 @@ router.get("/:quizId", isAuth, async (req, res) => {
 });
 
 // DELETE A QUIZ
-router.delete("/:quizId", isAuth, async (req, res) => {
+router.delete("/:quizId", async (req, res) => {
   try {
     const { quizId } = req.params;
     const quizToDelete = await Quiz.findByIdAndDelete(quizId);
