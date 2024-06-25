@@ -8,8 +8,12 @@ const addressSchema = new Schema({
 
 const companySchema = new Schema({
   name: { type: String, required: true, trim: true },
-  logo: { type: String, required: true, trim: true },
-  valoration: { type: Number, required: true, trim: true },
+  logo: {
+    type: String,
+    required: true,
+    trim: true,
+    default: "https://cdn-icons-png.freepik.com/512/10303/10303793.png",
+  },
   address: { type: addressSchema, required: true },
 });
 
@@ -30,10 +34,16 @@ const jobSchema = new Schema(
       required: true,
       enum: ["On Site", "Hybrid", "Remote"],
     },
-    appliedDate: { type: Date, required: true },
+    appliedDate: { type: String, required: true },
     minSalary: { type: String, required: true, trim: true },
     maxSalary: { type: String, required: true, trim: true },
     jobUrl: { type: String, required: true, trim: true },
+    stage: {
+      type: String,
+      required: true,
+      enum: ["Applied", "Interview", "Rejected", "Closed"],
+      default: "Applied",
+    },
     company: { type: companySchema, required: true },
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     quizzes: [{ type: Schema.Types.ObjectId, ref: "Quiz" }],

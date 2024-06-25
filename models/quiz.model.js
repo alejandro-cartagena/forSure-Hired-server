@@ -20,12 +20,3 @@ const quizModel = new Schema(
 );
 
 export default model("Quiz", quizModel);
-
-// [1, 2, 3, 4]
-// [
-//     [1, 2, 3],
-//     [],
-//     [],
-//     []
-
-// ]
