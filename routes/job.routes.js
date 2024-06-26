@@ -96,9 +96,10 @@ router.delete("/:jobId", isAuth, isOwner, async (req, res) => {
       $pull: { jobs: deletedJob._id },
     });
     //Delete all quizzes linked to job
-    for (let quiz in deletedJob.quizzes) {
-      await Quiz.findByIdAndDelete(quiz);
+    if (deletedJob.quiz) {
+      await Quiz.findByIdAndDelete(deletedJob.quiz._id);
     }
+
     res.json({ message: `Job ${deletedJob.title} successfully deleted.` });
   } catch (error) {
     console.log(error);

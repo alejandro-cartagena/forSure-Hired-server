@@ -11,6 +11,11 @@ router.post("/:jobId", async (req, res) => {
     const { jobId } = req.params;
     const { name, behavioral, technical } = req.body;
 
+    const actualQuiz = await Quiz.findOne({ job: jobId });
+    if (actualQuiz) {
+      await Quiz.findByIdAndDelete(actualQuiz._id);
+    }
+
     const createdQuiz = await Quiz.create({
       name,
       behavioral,
@@ -19,7 +24,7 @@ router.post("/:jobId", async (req, res) => {
     });
 
     await Jobs.findByIdAndUpdate(jobId, {
-      $push: { quizzes: createdQuiz._id },
+      $set: { quiz: createdQuiz._id },
     });
 
     res.status(201).json({ message: "Quiz created successfully", createdQuiz });
@@ -56,29 +61,29 @@ router.get("/", isAuth, async (req, res) => {
   }
 });
 
-// GET ALL QUIZZES ASSOCIATED WITH JOB
+// GET SINGLE QUIZ ASSOCIATED WITH JOB
 router.get("/:jobId", isAuth, async (req, res) => {
   try {
     const { jobId } = req.params;
-    const allQuizzes = await Quiz.find({ job: jobId });
+    const quiz = await Quiz.findOne({ job: jobId });
 
-    res.status(200).json(allQuizzes);
+    res.status(200).json(quiz);
   } catch (error) {
     console.log("error getting all quizzes", error);
   }
 });
 
-// GET SINGLE QUIZ FROM A JOB
-router.get("/:jobId/:quizId", isAuth, async (req, res) => {
-  try {
-    const { quizId } = req.params;
+// GET SINGLE QUIZ
+// router.get("/:jobId/:quizId", isAuth, async (req, res) => {
+//   try {
+//     const { quizId } = req.params;
 
-    const singleQuiz = await Quiz.findById(quizId);
-    res.json(singleQuiz);
-  } catch (error) {
-    console.log("error getting single quiz", error);
-  }
-});
+//     const singleQuiz = await Quiz.findById(quizId);
+//     res.json(singleQuiz);
+//   } catch (error) {
+//     console.log("error getting single quiz", error);
+//   }
+// });
 
 // DELETE A QUIZ
 router.delete("/:quizId", async (req, res) => {

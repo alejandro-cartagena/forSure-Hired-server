@@ -46,7 +46,7 @@ const jobSchema = new Schema(
     },
     company: { type: companySchema, required: true },
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-    quizzes: [{ type: Schema.Types.ObjectId, ref: "Quiz" }],
+    quiz: { type: Schema.Types.ObjectId, ref: "Quiz" },
   },
   { timestamps: true }
 );
