@@ -100,10 +100,35 @@ router.post("/login", async (req, res) => {
 
 router.get("/verify", isAuth, async (req, res) => {
   try {
-    res.json({ message: "User is logged in", user: req.user });
+    const user = await User.findById(req.user._id);
+    res.json({ message: "User is logged in", user });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Unable to verify user" });
+  }
+});
+
+router.put("/:userId", isAuth, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { username, email, fullName, address, profilePic } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        username,
+        email,
+        fullName,
+        address,
+        profilePic,
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Issue updating profile" });
   }
 });
 
