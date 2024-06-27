@@ -25,7 +25,8 @@ const userSchema = new Schema(
     },
     profilePic: {
       type: String,
-      default: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      default:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp0xKoXUryp0JZ1Sxp-99eQiQcFrmA1M1qbQ&s",
     },
     fullName: { type: String },
     address: { type: String },
