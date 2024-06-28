@@ -6,7 +6,7 @@ import isAuth from "../middlewares/isAuth.js";
 const router = express.Router();
 
 // CREATE A QUIZ ASSOCIATED WITH A JOB
-router.post("/:jobId", async (req, res) => {
+router.post("/:jobId", isAuth, async (req, res) => {
   try {
     const { jobId } = req.params;
     const { name, behavioral, technical } = req.body;
@@ -85,14 +85,14 @@ router.get("/:jobId", isAuth, async (req, res) => {
 //   }
 // });
 
-// DELETE A QUIZ
+// DELETE A QUIZ check this
 router.delete("/:quizId", async (req, res) => {
   try {
     const { quizId } = req.params;
     const quizToDelete = await Quiz.findByIdAndDelete(quizId);
 
     await Jobs.findByIdAndUpdate(quizToDelete.job, {
-      $pull: { quizzes: quizToDelete._id },
+      $set: { quiz: "" },
     });
 
     res.json({ message: "Quiz successfully deleted" });
