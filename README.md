@@ -50,3 +50,4 @@ Below you will find the available endpoints of the backend API made with express
   - MONGODB_URI="your-DB-connection-string"
   - TOKEN_SIGN_SECRET="your-secret-phrase-for-jwt-encrypt/decrypt"(could be anything you want, Example: banana 😊)
   - REACT_APP_URL="your frontend app url"
+- Enjoy the project! 🥰
