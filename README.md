@@ -9,7 +9,7 @@
 This is a REST Api created for our final project in the Ironhack Web Dev bootcamp.
 Below you will find the available endpoints of the backend API made with express, mongodb and jwt for authentication. All endpoints that require authentication are protected by the isAuth middleware and need to check the JWT token before realizing the requested action.
 
-### User
+# User
 
 | HTTP Verb | URL             | Request Body       | Action                                 |
 | --------- | --------------- | ------------------ | -------------------------------------- |
@@ -18,11 +18,11 @@ Below you will find the available endpoints of the backend API made with express
 | GET       | `/user/verify`  | JSON, Bearer Token | Verify for a valid JWT token           |
 | PUT       | `/user/:userId` | JSON, Bearer Token | Update the specified User info         |
 
-# All routes below are protected and requires a logged in user.
+### All routes below are protected and requires a logged in user.
 
-### Jobs
+# Jobs
 
-# Only the owner of the job is allowed to see and modify it, all routes have a middleware that checks if isOwner
+### Only the owner of the job is allowed to see and modify it, all routes have a middleware that checks if isOwner
 
 | HTTP Verb | URL            | Request Body       | Action                                                                                                     |
 | --------- | -------------- | ------------------ | ---------------------------------------------------------------------------------------------------------- |
@@ -32,7 +32,7 @@ Below you will find the available endpoints of the backend API made with express
 | PUT       | `/jobs/:jobId` | JSON, Bearer Token | Update the specified Job                                                                                   |
 | DELETE    | `/jobs/:jobId` | JSON, Bearer Token | Delete the specified Job, also remove the job from the user jobs list and the quiz associated with the job |
 
-### Quizzes
+# Quizzes
 
 | HTTP Verb | URL             | Request Body       | Action                                                             |
 | --------- | --------------- | ------------------ | ------------------------------------------------------------------ |
@@ -42,7 +42,7 @@ Below you will find the available endpoints of the backend API made with express
 | GET       | `/quiz/:jobId`  | JSON, Bearer Token | Return the Quiz linked with a Job                                  |
 | DELETE    | `/quiz/:quizId` | JSON, Bearer Token | Delete the specified Quiz and remove the relationship with the job |
 
-# For Correct functioning:
+### For Correct functioning:
 
 - After forking/cloning the repo need to run "npm install" on terminal
 - You must create a .env file in the server root with the following global variables:
