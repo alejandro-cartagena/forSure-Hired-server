@@ -12,7 +12,7 @@ const checkJob = (req, res, next) => {
     "stage",
     "company",
     "user",
-    "quizzes",
+    "quiz",
     "updatedAt",
     "createdAt",
     "__v",
