@@ -6,6 +6,7 @@ import cors from "cors";
 import userRouter from "./routes/user.routes.js";
 import jobRouter from "./routes/job.routes.js";
 import quizRouter from "./routes/quiz.routes.js";
+import imageRouter from "./routes/image.routes.js";
 
 import connectDB from "./config/mongoose.config.js";
 import cookieParser from "cookie-parser";
@@ -25,6 +26,7 @@ app.use(cors({ origin: [process.env.REACT_APP_URL] }));
 app.use("/user", userRouter);
 app.use("/jobs", jobRouter);
 app.use("/quiz", quizRouter);
+app.use("/image", imageRouter);
 
 app.listen(process.env.PORT, () => {
   console.clear();
